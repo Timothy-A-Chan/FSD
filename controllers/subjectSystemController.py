@@ -1,3 +1,5 @@
+from models.subject import Subject
+
 class SubjectSystemController:
 
     def system(self):
