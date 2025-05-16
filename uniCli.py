@@ -1,5 +1,3 @@
-from models.admin import Admin
-from models.student import Student
 from controllers.adminSystemController import AdminSystemController
 from controllers.studentSystemController import StudentSystemController
 from models.database import Database as db

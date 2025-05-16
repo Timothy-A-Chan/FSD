@@ -1,15 +1,13 @@
-class AdminSystemController:
+class SubjectSystemController:
 
     def system(self):
-        userInput = input("\033[96mAdmin System (c/g/p/r/s/x): \033[0m")
+        userInput = input("\033[96mStudent Course Menu (c/e/r/s/x): \033[0m")
 
         while(userInput != "x"):
             match userInput:
                 case "c":
                     pass
-                case "g":
-                    pass
-                case "p":
+                case "e":
                     pass
                 case "r":
                     pass
@@ -17,4 +15,4 @@ class AdminSystemController:
                     pass
                 case _:
                     pass
-            userInput = input("\033[96mAdmin System (c/g/p/r/s/x): \033[0m")
+            userInput = input("\033[96mStudent Course Menu (c/e/r/s/x): \033[0m")

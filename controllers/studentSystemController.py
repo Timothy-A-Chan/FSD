@@ -1,3 +1,6 @@
+from models.student import Student
+from models.subject import Subject
+
 class StudentSystemController:
     
     def system(self):
