@@ -1,16 +1,22 @@
+from models.admin import Admin
+from models.student import Student
+
 class UniCli:
     
     def main(self):
-        userInput = input("University System: (A)dmin, (S)tudent, or X: ")
+        userInput = input("\033[96mUniversity System: (A)dmin, (S)tudent, or X: \033[0m")
         while (userInput != "X"):
             match  userInput:
                 case "A":
-                    print("Admin Mode")
+                    admin = Admin()
+                    admin.system()
                 case "S":
-                    print("Student Mode")
+                    student = Student()
+                    student.system()
                 case _:
-                    self.help()
-        print("Thank You")
+                    pass
+            userInput = input("\033[96mUniversity System: (A)dmin, (S)tudent, or X: \033[0m")
+        print("\033[93mThank You\033[0m")
 
 
 if __name__ == "__main__":
