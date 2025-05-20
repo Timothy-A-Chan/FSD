@@ -3,12 +3,29 @@ from models.subject import Subject
 import re
 from models.database import Database as db
 import random
+from controllers.subjectSystemController import SubjectSystemController
 
 
 class StudentSystemController:
 
     def login(self):
-        pass
+        print("Student Sign In")
+        email = input("Email: ")
+        password = input("Password: ")
+
+        if(self.checkEmail(email) and self.checkPassword(password)):
+            print("email and password formats acceptable")
+            if(self.findStudent(email) and self.correctLogin(email, password)):
+                subjectSystem = SubjectSystemController()
+                subjectSystem.system()
+                # print("Student " + self.findStudent(email).name + " already exists")
+            else:
+                print("Student does not exist")
+
+        else:
+            print("Inccorect email or password format")
+
+
 
     def register(self):
         print("Student Sign Up")
@@ -16,7 +33,7 @@ class StudentSystemController:
         password = input("Password: ")
 
         if(self.checkEmail(email) and self.checkPassword(password)):
-            
+
             print("email and password formats acceptable")
 
             if(self.findStudent(email)):
@@ -29,8 +46,10 @@ class StudentSystemController:
 
             id = random.randint(1, 999999)
             subjects = None
-            self.students.append(Student(id, name, email, subjects))
+            self.students.append(Student(id, name, email, password, subjects))
             db.write(self.students)
+
+            print("Enrolling Student " + name)
 
         else:
             print("Inccorect email or password format")
@@ -54,7 +73,16 @@ class StudentSystemController:
             if(student.email == email):
                 return student
         return None
+    
+    def correctLogin(self, email, password):
+        student = self.findStudent(email)
+        if student is not None:
+            return student.email == email and student.password == password
+        return False
+    
 
+    # def courseMenu(self):
+    #     userInput = input("Student Course Menu")
 
 
     
