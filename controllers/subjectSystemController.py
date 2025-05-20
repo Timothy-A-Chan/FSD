@@ -80,7 +80,34 @@ class SubjectSystemController:
             print("Students are allowed to enrol in 4 subjects")
 
     def remove(self):
-        pass
+        try:
+            subjectId = int(input("Remove Subject by ID: "))
+        except ValueError:
+            print("Invalid subject ID format.")
+            return
+
+        found = False
+        for subject in self.student.subjects:
+            if subject.id == subjectId:
+                self.student.subjects.remove(subject)
+                print("Dropping Subject -" + str(subjectId))
+                found = True
+                break
+
+        if not found:
+            print(f"Subject with ID {subjectId} not found.")
+            return
+
+        # Update DB
+        students = db.read()
+        for i, student in enumerate(students):
+            if student.id == self.student.id:
+                students[i] = self.student
+                break
+
+        db.write(students)
+        print("Student record updated.")
+
 
     def show(self):
         if(self.student.subjects is None):
@@ -101,7 +128,7 @@ class SubjectSystemController:
                 case "e":
                     self.enrol()
                 case "r":
-                    pass
+                    self.remove()
                 case "s":
                     self.show()
                 case _:
