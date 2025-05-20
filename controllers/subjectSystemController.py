@@ -1,18 +1,78 @@
 from models.subject import Subject
+# from controllers.studentSystemController import StudentSystemController
+from models.database import Database as db
+import random
+
 
 class SubjectSystemController:
 
-    def change(self):
+    def __init__(self, student):
+        self.student = student
+        if self.student.subjects is None:
+            self.student.subjects = []
+        # studentControllerSystem = StudentSystemController()
+
+    def changePassword(self):
         pass
 
     def enrol(self):
-        pass
+        if (len(self.student.subjects) < 4):
+            id = random.randint(1, 999)
+            # self.students.append(Student(id, name, email, password, subjects))
+            # db.write(self.students)
+            mark = random.randint(25, 100)
+
+            if(mark >= 85):
+                grade = "HD"
+
+            elif(75 <= mark < 84):
+                grade = "D"
+
+            elif(65 <= mark < 75):
+                grade = "C"
+
+            elif(50 <= mark < 65):
+                grade = "P"
+
+            else:
+                grade = "Z"
+
+            subject = Subject(id, mark, grade)
+            
+            self.student.subjects.append(subject)
+
+            students = db.read()
+
+            # Find the student in the list by their id or email
+            for i, student in enumerate(students):
+                if student.id == self.student.id:  # You can use email if needed
+                    students[i] = self.student  # Update the student in the list
+
+            db.write(students)
+
+            # self.students.append(Student(id, name, email, password, subjects))
+            # db.write(self.students)
+
+            print("Enrolling in Subject-" + str(id))
+            print("You are now enrolled in " + str(len(self.student.subjects)) + " out of 4 subjects")
+
+            for subject in self.student.subjects:
+                print("[ Subject::" + str(id) + " -- mark =" + str(mark) + " -- grade =  " + grade + " ]")
+
+        else:
+            print("Students are allowed to enrol in 4 subjects")
 
     def remove(self):
         pass
 
     def show(self):
-        pass
+        if(self.student.subjects is None):
+            print("Showing 0 subjects")
+
+        else:
+            print("Showing " + str(len(self.student.subjects)) + " subjects")
+            for subject in self.student.subjects:
+                print(f"[Subject:: id={subject.id} -- mark={subject.mark} -- grade={subject.grade}]")
 
     def system(self):
         userInput = input("\033[96mStudent Course Menu (c/e/r/s/x): \033[0m")
@@ -22,11 +82,11 @@ class SubjectSystemController:
                 case "c":
                     pass
                 case "e":
-                    pass
+                    self.enrol()
                 case "r":
                     pass
                 case "s":
-                    pass
+                    self.show()
                 case _:
                     pass
             userInput = input("\033[96mStudent Course Menu (c/e/r/s/x): \033[0m")

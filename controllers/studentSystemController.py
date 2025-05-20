@@ -16,14 +16,14 @@ class StudentSystemController:
         if(self.checkEmail(email) and self.checkPassword(password)):
             print("email and password formats acceptable")
             if(self.findStudent(email) and self.correctLogin(email, password)):
-                subjectSystem = SubjectSystemController()
+                subjectSystem = SubjectSystemController(self.findStudent(email))
                 subjectSystem.system()
                 # print("Student " + self.findStudent(email).name + " already exists")
             else:
                 print("Student does not exist")
 
         else:
-            print("Inccorect email or password format")
+            print("Incorect email or password format")
 
 
 
@@ -45,8 +45,8 @@ class StudentSystemController:
             self.students = db.read()  
 
             id = random.randint(1, 999999)
-            subjects = None
-            self.students.append(Student(id, name, email, password, subjects))
+            # subjects = None
+            self.students.append(Student(id, name, email, password))
             db.write(self.students)
 
             print("Enrolling Student " + name)
