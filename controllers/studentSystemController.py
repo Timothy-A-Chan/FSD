@@ -16,7 +16,7 @@ class StudentSystemController:
         if(self.checkEmail(email) and self.checkPassword(password)):
             print("email and password formats acceptable")
             if(self.findStudent(email) and self.correctLogin(email, password)):
-                subjectSystem = SubjectSystemController(self.findStudent(email))
+                subjectSystem = SubjectSystemController(self.findStudent(email), self)
                 subjectSystem.system()
                 # print("Student " + self.findStudent(email).name + " already exists")
             else:

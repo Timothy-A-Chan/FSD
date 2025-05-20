@@ -1,19 +1,36 @@
 from models.subject import Subject
-# from controllers.studentSystemController import StudentSystemController
 from models.database import Database as db
 import random
 
 
 class SubjectSystemController:
 
-    def __init__(self, student):
+    def __init__(self, student, controller):
         self.student = student
+        self.controller = controller
         if self.student.subjects is None:
             self.student.subjects = []
-        # studentControllerSystem = StudentSystemController()
 
     def changePassword(self):
-        pass
+        print("Updating Password")
+        newPassword = input("New Password: ")
+        confirmPassword = input("Confirm Password: ")
+        if(self.controller.checkPassword(newPassword)):
+            if(newPassword != confirmPassword):
+                print("Password does not match - try again")
+                confirmPassword = input("Confirm Password: ")
+            else:
+                self.student.password = newPassword
+                students = db.read()
+                for i, student in enumerate(students):
+                    if student.id == self.student.id:
+                        students[i] = self.student  
+                        break
+
+            db.write(students)
+        else:
+            print("Incorrect password format")
+        
 
     def enrol(self):
         if (len(self.student.subjects) < 4):
@@ -80,7 +97,7 @@ class SubjectSystemController:
         while(userInput != "x"):
             match userInput:
                 case "c":
-                    pass
+                    self.changePassword()
                 case "e":
                     self.enrol()
                 case "r":
