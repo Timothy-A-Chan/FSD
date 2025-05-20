@@ -77,7 +77,7 @@ class SubjectSystemController:
                 print("[ Subject::" + str(id) + " -- mark =" + str(mark) + " -- grade =  " + grade + " ]")
 
         else:
-            print("Students are allowed to enrol in 4 subjects")
+            print("Students are allowed to enrol in 4 subjects only")
 
     def remove(self):
         try:
