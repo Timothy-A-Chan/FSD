@@ -1,5 +1,9 @@
 from models.student import Student
 from models.subject import Subject
+import re
+from models.database import Database as db
+import random
+
 
 class StudentSystemController:
 
@@ -7,7 +11,52 @@ class StudentSystemController:
         pass
 
     def register(self):
-        pass
+        print("Student Sign Up")
+        email = input("Email: ")
+        password = input("Password: ")
+
+        if(self.checkEmail(email) and self.checkPassword(password)):
+            
+            print("email and password formats acceptable")
+
+            if(self.findStudent(email)):
+                print("Student " + self.findStudent(email).name + " already exists")
+                return
+                
+            name = input("Name: ")
+
+            self.students = db.read()  
+
+            id = random.randint(1, 999999)
+            subjects = None
+            self.students.append(Student(id, name, email, subjects))
+            db.write(self.students)
+
+        else:
+            print("Inccorect email or password format")
+
+        # print("=== All Registered Students ===")
+        # for student in self.students:
+        #     print(f"ID: {str(student.id).zfill(6)} | Name: {student.name} | Email: {student.email}")
+
+
+    def checkEmail(self, email):
+        pattern = r'^[a-zA-Z]+\.([a-zA-Z]+)@university\.com$'
+        return bool(re.match(pattern, email))
+    
+    def checkPassword(self, password):
+        pattern = r'^[A-Z][a-zA-Z]{4,}\d{3,}$'
+        return bool(re.match(pattern, password)) 
+    
+    def findStudent(self, email):
+        self.students = db.read()
+        for student in self.students:
+            if(student.email == email):
+                return student
+        return None
+
+
+
     
     def system(self):
         userInput = input("\033[96mStudent System (l/r/x): \033[0m")
@@ -18,9 +67,6 @@ class StudentSystemController:
 
                 case "r":
                     self.register()
-
-                case "x":
-                    pass
                 
                 case _:
                     pass
